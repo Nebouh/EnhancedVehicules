@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -13,6 +13,14 @@
 		<LangVersion>latest</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Include="EnhancedVehicules.cs" />
+	  <Compile Include="SettingsManager.cs" />
+	  <Compile Include="StorageEntityPatch.cs" />
+	  <Compile Include="VehicleData.cs" />
+	  <Compile Include="VehicleDatabase.cs" />
+	  <Compile Include="VehiclePriceManager.cs" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<Reference Include="Assembly-CSharp-firstpass">
