@@ -2,6 +2,9 @@ using MelonLoader;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using EnhancedVehicules.Settings;
+using EnhancedVehicules.Modules.Storage;
+using EnhancedVehicules.Modules.Prices;
 
 [assembly: MelonColor()]
 [assembly: MelonInfo(typeof(EnhancedVehiculesMod.EnhancedVehicules), "Enhanced Vehicules", "1.0.0", "Nebouh")]
