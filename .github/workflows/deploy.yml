@@ -1,0 +1,64 @@
+name: Build and Package
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build DLL and Create Packages
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6.0.x'
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Restore NuGet Packages
+        run: dotnet restore ./EnhancedVehicules.sln
+
+      - name: Build Solution
+        run: dotnet build ./EnhancedVehicules.sln --configuration Release --no-restore
+
+      - name: Prepare Thunderstore Package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path ThunderstoreTemp/Library -Force | Out-Null
+          
+          Copy-Item -Path ./bin/Release/*.dll -Destination ThunderstoreTemp/Library
+          
+          Copy-Item -Path ./README.md -Destination ThunderstoreTemp/
+          
+          Copy-Item -Path ./Resources/icon.png -Destination ThunderstoreTemp/
+          Copy-Item -Path ./Resources/manifest.json -Destination ThunderstoreTemp/
+          
+          Compress-Archive -Path ThunderstoreTemp/* -DestinationPath "EnhancedVehicules - Thunderstore.zip"
+
+      - name: Prepare NexusMod Package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path NexusModTemp/Mods -Force | Out-Null
+          
+          Copy-Item -Path ./bin/Release/*.dll -Destination NexusModTemp/Mods
+          
+          Compress-Archive -Path NexusModTemp/* -DestinationPath "EnhancedVehicules - NexusMod.zip"
+
+      - name: Upload Thunderstore Package
+        uses: actions/upload-artifact@v4
+        with:
+          name: EnhancedVehicules-Thunderstore
+          path: EnhancedVehicules - Thunderstore.zip
+
+      - name: Upload NexusMod Package
+        uses: actions/upload-artifact@v4
+        with:
+          name: EnhancedVehicules-NexusMod
+          path: EnhancedVehicules - NexusMod.zip
