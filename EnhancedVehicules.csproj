@@ -15,11 +15,11 @@
 	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Include="EnhancedVehicules.cs" />
-	  <Compile Include="SettingsManager.cs" />
-	  <Compile Include="StorageEntityPatch.cs" />
-	  <Compile Include="VehicleData.cs" />
-	  <Compile Include="VehicleDatabase.cs" />
-	  <Compile Include="VehiclePriceManager.cs" />
+	  <Compile Include="Settings\SettingsManager.cs" />
+	  <Compile Include="Modules\Storage\StorageEntityPatch.cs" />
+	  <Compile Include="Settings\Vehicule\VehicleData.cs" />
+	  <Compile Include="Settings\Vehicule\VehicleDatabase.cs" />
+	  <Compile Include="Modules\Prices\VehiclePriceManager.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
