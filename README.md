@@ -8,10 +8,17 @@ Created by **Nebouh** — powered by **MelonLoader** and **Harmony**.
 
 ## 🚗 Features
 
-- Increases the slot count and number of display rows for in-game vehicles.
-- Fully customizable per vehicle type via configuration.
-- Includes a global slot cap to maintain balance.
-- Uses MelonPreferences for user-configurable settings.
+- **Customize storage**: Adjust the slot count and number of display rows for each vehicle.
+- **Customize pricing**: Modify the in-game purchase price of vehicles.
+- **Per-vehicle settings**: Each vehicle has independent configuration for storage and price.
+- **Increase maximum storage slots**: Raise the slot limit beyond the default 20 slots.
+
+---
+
+## 🔥 Latest Updates
+
+- New **vehicle price management** feature: patch vehicle prefab prices at runtime.
+- **Optimized patching**: Only applies after the `"Main"` scene is loaded.
 
 ---
 
@@ -27,10 +34,11 @@ Future updates will expand the mod to include performance customization for each
 
 ## 🛠️ Technical Details
 
-This mod dynamically patches the `Awake` method of the `StorageEntity` class using Harmony to modify internal values:
-
+This mod dynamically patches the :
 - `SlotCount`
 - `DisplayRowCount`
+- `GameMaxSlots`
+- `vehiclePrice`
 
 Values are applied based on user configuration and capped using the global `GameMaxSlots` setting.
 
