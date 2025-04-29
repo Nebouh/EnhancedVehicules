@@ -4,6 +4,8 @@ using HarmonyLib;
 using MelonLoader;
 using System.Reflection;
 using UnityEngine;
+using System.Collections.Generic;
+using Object = UnityEngine.Object;
 
 namespace EnhancedVehicules.Modules.Storage;
 
@@ -22,16 +24,19 @@ public static class StorageEntityPatch
                 return;
             }
 
-            var method = storageEntityType.GetMethod("Awake", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            var prefix = typeof(StorageEntityPatch).GetMethod(nameof(StorageEntityInitialize_Prefix), BindingFlags.Static | BindingFlags.NonPublic);
+            var harmony = new HarmonyLib.Harmony("com.enhancedvehiculesmod.patch");
+            harmony.Patch(
+                storageEntityType.GetMethod("Awake", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic),
+                new HarmonyMethod(typeof(StorageEntityPatch), nameof(StorageEntityInitialize_Prefix))
+            );
 
-            new HarmonyLib.Harmony("com.enhancedvehiculesmod.patch").Patch(method, new HarmonyMethod(prefix));
+            harmony.PatchAll(typeof(StorageMenuPatch));
 
-            MelonLogger.Msg("[Enhanced Vehicules] StorageEntity patched successfully after scene load.");
+            MelonLogger.Msg("[Enhanced Vehicules] StorageEntity and StorageMenu patched successfully.");
         }
         catch (Exception ex)
         {
-            MelonLogger.Error($"[Enhanced Vehicules] Failed to patch StorageEntity: {ex.Message}");
+            MelonLogger.Error($"[Enhanced Vehicules] Failed to patch: {ex.Message}");
         }
     }
 
@@ -54,11 +59,7 @@ public static class StorageEntityPatch
                 SetFieldOrProperty(__instance, "DisplayRowCount", rows);
 
                 var refreshMethod = __instance.GetType().GetMethod("SetupSlots", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-                if (refreshMethod != null)
-                {
-                    refreshMethod.Invoke(__instance, null);
-                    MelonLogger.Msg($"[Enhanced Vehicules] SetupSlots called on {val.gameObject.name}");
-                }
+                refreshMethod?.Invoke(__instance, null);
 
                 MelonLogger.Msg($"[Enhanced Vehicules] Patched {val.gameObject.name} (Slots: {slots}, Rows: {rows})");
                 break;
@@ -66,7 +67,7 @@ public static class StorageEntityPatch
         }
         catch (Exception ex)
         {
-            MelonLogger.Error($"[Enhanced Vehicules] Prefix error: {ex.Message}");
+            MelonLogger.Error($"[Enhanced Vehicules] StorageEntity Prefix error: {ex.Message}");
         }
 
         return true;
@@ -75,7 +76,6 @@ public static class StorageEntityPatch
     private static void SetFieldOrProperty(object target, string name, object value)
     {
         var type = storageEntityType;
-
         var prop = type.GetProperty(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
         if (prop != null)
         {
@@ -87,6 +87,46 @@ public static class StorageEntityPatch
         if (field != null)
         {
             field.SetValue(target, value);
+        }
+    }
+
+    [HarmonyPatch(typeof(Il2CppScheduleOne.UI.StorageMenu), "Awake")]
+    private static class StorageMenuPatch
+    {
+        [HarmonyPrefix]
+        private static void Prefix(Il2CppScheduleOne.UI.StorageMenu __instance)
+        {
+            try
+            {
+                int maxSlots = SettingsManager.prefGameMaxSlots.Value;
+                if (maxSlots <= 20) return;
+
+                var slotsTransform = __instance.Container?.Find("Slots");
+                if (slotsTransform == null) return;
+
+                var slotsUIsList = new List<Il2CppScheduleOne.UI.ItemSlotUI>(__instance.SlotsUIs);
+
+                while (slotsTransform.childCount < maxSlots)
+                {
+                    var firstChild = slotsTransform.GetChild(0).gameObject;
+                    var clonedSlot = Object.Instantiate(firstChild, slotsTransform, true);
+                    clonedSlot.name = clonedSlot.name.Replace("Clone", $"Extra-[{slotsTransform.childCount - 1}]");
+
+                    clonedSlot.SetActive(true);
+                    clonedSlot.transform.localScale = Vector3.one;
+
+                    var itemSlotUI = clonedSlot.GetComponent<Il2CppScheduleOne.UI.ItemSlotUI>() ?? clonedSlot.AddComponent<Il2CppScheduleOne.UI.ItemSlotUI>();
+                    slotsUIsList.Add(itemSlotUI);
+                }
+
+                __instance.SlotsUIs = slotsUIsList.ToArray();
+
+                MelonLogger.Msg($"[Enhanced Vehicules] StorageMenu slots expanded to {slotsTransform.childCount}.");
+            }
+            catch (System.Exception ex)
+            {
+                MelonLogger.Error($"[Enhanced Vehicules] StorageMenu Patch error: {ex.Message}");
+            }
         }
     }
 }
