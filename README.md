@@ -53,32 +53,38 @@ Settings are stored in the following file: `./UserData/MelonPreferences.cfg`
 
 Example default configuration:
 ```ini
-["EnhancedVehicules"]
+[EnhancedVehicules]
 EnableMod = true
 UseDefaultSettings = false
-GameMaxSlots = 20
+GameMaxSlots = 120
 
 ["EnhancedVehicules/Shitbox"]
-Slots = 5
-Rows = 1
+Slots = 32
+Rows = 4
+Price = 1500.0
 
 ["EnhancedVehicules/Bruiser"]
-Slots = 5
-Rows = 1
+Slots = 32
+Rows = 4
+Price = 2250.0
 
 ["EnhancedVehicules/Cheetah"]
-Slots = 4
-Rows = 1
+Slots = 32
+Rows = 4
+Price = 2500.0
 
 ["EnhancedVehicules/Dinkler"]
-Slots = 8
-Rows = 2
+Slots = 32
+Rows = 4
+Price = 2750.0
 
 ["EnhancedVehicules/Veeper"]
-Slots = 16
-Rows = 2
+Slots = 32
+Rows = 4
+Price = 2950.0
 
 ["EnhancedVehicules/Hounddog"]
-Slots = 5
-Rows = 1
+Slots = 32
+Rows = 4
+Price = 3000.0
 ```
