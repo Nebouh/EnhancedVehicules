@@ -6,13 +6,13 @@ using Il2CppTMPro;
 using Il2CppScheduleOne.Tools;
 using EnhancedVehicules.Settings.Vehicule;
 
-namespace EnhancedVehicules.Modules.Prices;
+namespace EnhancedVehicules.Modules.Manager;
 
-public static class VehiclePriceManager
+public static class LandVehicleManager
 {
     private static VehicleManager vehicleManager;
 
-    public static IEnumerator ApplyPrices()
+    public static IEnumerator ApplyToVehicles()
     {
         yield return null;
 
@@ -30,6 +30,8 @@ public static class VehiclePriceManager
         {
             if (vehicle == null) continue;
             ApplyPriceToVehicle(vehicle.name, price => vehicle.vehiclePrice = price);
+            ApplyDiffToVehicle(vehicle.name, diffGear => vehicle.diffGearing = diffGear);
+            ApplyTopSpeedToVehicle(vehicle.name, topSpeed => vehicle.TopSpeed = topSpeed);
         }
 
         foreach (VehicleSaleSign sign in UnityEngine.Object.FindObjectsOfType<VehicleSaleSign>())
@@ -49,6 +51,32 @@ public static class VehiclePriceManager
             {
                 applyAction(data.Price);
                 MelonLogger.Msg($"[Enhanced Vehicules] Applied price ${data.Price} to {objectName}");
+                break;
+            }
+        }
+    }
+
+    private static void ApplyDiffToVehicle(string objectName, Action<float> applyAction)
+    {
+        foreach (var data in VehicleDatabase.Vehicles)
+        {
+            if (objectName.Contains(data.Label, StringComparison.OrdinalIgnoreCase))
+            {
+                applyAction(data.DiffGear);
+                MelonLogger.Msg($"[Enhanced Vehicules] Applied DiffGear {data.DiffGear} to {objectName}");
+                break;
+            }
+        }
+    }
+
+    private static void ApplyTopSpeedToVehicle(string objectName, Action<float> applyAction)
+    {
+        foreach (var data in VehicleDatabase.Vehicles)
+        {
+            if (objectName.Contains(data.Label, StringComparison.OrdinalIgnoreCase))
+            {
+                applyAction(data.TopSpeed);
+                MelonLogger.Msg($"[Enhanced Vehicules] Applied TopSpeed {data.TopSpeed} to {objectName}");
                 break;
             }
         }

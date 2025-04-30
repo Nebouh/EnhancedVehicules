@@ -14,12 +14,12 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Compile Include="EnhancedVehicules.cs" />
-	  <Compile Include="Settings\SettingsManager.cs" />
-	  <Compile Include="Modules\Storage\StorageEntityPatch.cs" />
-	  <Compile Include="Settings\Vehicule\VehicleData.cs" />
-	  <Compile Include="Settings\Vehicule\VehicleDatabase.cs" />
-	  <Compile Include="Modules\Prices\VehiclePriceManager.cs" />
+		<Compile Include="EnhancedVehicules.cs" />
+		<Compile Include="Settings\SettingsManager.cs" />
+		<Compile Include="Modules\Storage\StorageEntityPatch.cs" />
+		<Compile Include="Settings\Vehicule\VehicleData.cs" />
+		<Compile Include="Settings\Vehicule\VehicleDatabase.cs" />
+		<Compile Include="Modules\Manager\LandVehicleManager.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -468,7 +468,7 @@
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
 	</PropertyGroup>
-	
+
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Exec Command="COPY &quot;$(TargetPath)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Schedule I\Mods&quot;" />
 	</Target>
