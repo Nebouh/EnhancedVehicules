@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using EnhancedVehicules.Settings;
 using EnhancedVehicules.Modules.Storage;
-using EnhancedVehicules.Modules.Prices;
+using EnhancedVehicules.Modules.Manager;
 
 [assembly: MelonColor()]
 [assembly: MelonInfo(typeof(EnhancedVehiculesMod.EnhancedVehicules), "Enhanced Vehicules", "1.0.0", "Nebouh")]
@@ -41,7 +41,7 @@ public class EnhancedVehicules : MelonMod
 
         MelonLogger.Msg($"[Enhanced Vehicules] Scene loaded: {scene.name}, now patching...");
         StorageEntityPatch.Patch();
-        MelonCoroutines.Start(VehiclePriceManager.ApplyPrices());
+        MelonCoroutines.Start(LandVehicleManager.ApplyToVehicles());
         
         isPatched = true;
     }

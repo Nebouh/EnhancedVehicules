@@ -29,6 +29,8 @@ public static class SettingsManager
             vehicle.PrefSlots = vehicleCategory.CreateEntry("Slots", vehicle.Slots, $"{vehicle.Label} - Number of Slots");
             vehicle.PrefRows = vehicleCategory.CreateEntry("Rows", vehicle.Rows, $"{vehicle.Label} - Number of Rows");
             vehicle.PrefPrice = vehicleCategory.CreateEntry("Price", vehicle.Price, $"{vehicle.Label} - Purchase Price");
+            vehicle.PrefDiffGear = vehicleCategory.CreateEntry("DiffGear", vehicle.DiffGear, $"{vehicle.Label} - Acceleration");
+            vehicle.PrefTopSpeed = vehicleCategory.CreateEntry("TopSpeed", vehicle.TopSpeed, $"{vehicle.Label} - Top Speed");
         }
     }
 
@@ -44,6 +46,12 @@ public static class SettingsManager
 
             if (vehicle.PrefPrice != null)
                 vehicle.Price = vehicle.PrefPrice.Value;
+
+            if (vehicle.PrefDiffGear != null)
+                vehicle.DiffGear = vehicle.PrefDiffGear.Value;
+
+            if (vehicle.PrefTopSpeed != null)
+                vehicle.TopSpeed = vehicle.PrefTopSpeed.Value;
 
         }
     }
