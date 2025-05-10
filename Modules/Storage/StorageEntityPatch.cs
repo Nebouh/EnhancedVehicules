@@ -115,11 +115,35 @@ public static class StorageEntityPatch
                     clonedSlot.SetActive(true);
                     clonedSlot.transform.localScale = Vector3.one;
 
-                    var itemSlotUI = clonedSlot.GetComponent<Il2CppScheduleOne.UI.ItemSlotUI>() ?? clonedSlot.AddComponent<Il2CppScheduleOne.UI.ItemSlotUI>();
+                    var itemSlotUI = clonedSlot.GetComponent<Il2CppScheduleOne.UI.ItemSlotUI>()
+                        ?? clonedSlot.AddComponent<Il2CppScheduleOne.UI.ItemSlotUI>();
                     slotsUIsList.Add(itemSlotUI);
                 }
 
                 __instance.SlotsUIs = slotsUIsList.ToArray();
+
+                // Ajustement visuel automatique du container
+                var gridLayout = __instance.SlotGridLayout;
+                if (gridLayout != null && __instance.Container != null)
+                {
+                    int columns = gridLayout.constraintCount;
+                    int currentRows = Mathf.CeilToInt((float)slotsUIsList.Count / columns);
+
+                    var rect = __instance.Container.GetComponent<RectTransform>();
+
+                    // Point d'ancrage centré
+                    // rect.anchorMin = new Vector2(0.5f, 0.5f);
+                    // rect.anchorMax = new Vector2(0.5f, 0.5f);
+                    // rect.pivot = new Vector2(0.5f, 0.5f);
+
+                    // Décalage vers le haut pour chaque rangée au-delà de 3
+                    // int extraRows = Mathf.Max(0, currentRows - 3);
+                    // float offsetY = extraRows * 0.2f;
+
+                    rect.anchoredPosition += new Vector2(0f, offsetY);
+
+                    MelonLogger.Msg($"[Enhanced Vehicules] Adjusted StorageMenu for {currentRows} rows (Offset Y: {offsetY}).");
+                }
 
                 MelonLogger.Msg($"[Enhanced Vehicules] StorageMenu slots expanded to {slotsTransform.childCount}.");
             }
@@ -129,4 +153,5 @@ public static class StorageEntityPatch
             }
         }
     }
+
 }

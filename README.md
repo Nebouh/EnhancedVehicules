@@ -14,6 +14,7 @@ Created by **Nebouh** — powered by **MelonLoader** and **Harmony**.
 - **Customize top speed**: Modify the top speed of vehicles.
 - **Per-vehicle settings**: Each vehicle has independent configuration for storage and price.
 - **Increase maximum storage slots**: Raise the slot limit beyond the default 20 slots.
+- Ability to modify the **acceleration** and **top speed** of vehicles.
 
 ---
 
@@ -29,6 +30,7 @@ Future updates will expand the mod to include performance customization for each
 
 - **Handling** – Fine-tune steering responsiveness and control.
 - **Drift Behavior** – Modify how vehicles slide and grip while turning.
+- **New Vehicles** – Add support for van deliverys
 
 ---
 
@@ -59,6 +61,7 @@ Supported vehicle types and their default settings:
 
 ## ⚙️ Configuration
 
+Add the file `*.dll` in your Mods folder of your game
 Settings are stored in the following file: `./UserData/MelonPreferences.cfg`
 
 Example default configuration:
@@ -109,3 +112,11 @@ Price = 40000.0
 DiffGear = 5.0
 TopSpeed = 60.0
 ```
+
+---
+
+## 🙌 Credits
+
+Special thanks to:
+- [JumbleBumble](https://github.com/JumbleBumble) for implementing the **differential gearing** and **top speed** features.
+- [BreadCh4n](https://github.com/BreadCh4n) for assisting with managing the **maximum storage limit** beyond the game's default slot restrictions.

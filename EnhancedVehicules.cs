@@ -7,7 +7,7 @@ using EnhancedVehicules.Modules.Storage;
 using EnhancedVehicules.Modules.Manager;
 
 [assembly: MelonColor()]
-[assembly: MelonInfo(typeof(EnhancedVehiculesMod.EnhancedVehicules), "Enhanced Vehicules", "1.0.0", "Nebouh")]
+[assembly: MelonInfo(typeof(EnhancedVehiculesMod.EnhancedVehicules), "Enhanced Vehicules", "1.4.0", "Nebouh")]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace EnhancedVehiculesMod;
